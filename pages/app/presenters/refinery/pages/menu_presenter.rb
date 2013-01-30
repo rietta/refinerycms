@@ -17,7 +17,7 @@ module Refinery
       self.menu_tag = :nav
       self.list_tag = :ul
       self.list_item_tag = :li
-      self.selected_css = :selected
+      self.selected_css = :active
       self.first_css = :first
       self.last_css = :last
       def roots
@@ -44,8 +44,9 @@ module Refinery
       end
 
       def render_menu_items(menu_items)
+        STDERR.puts "[DEBUG] It's Wednesday night and the party's just started"
         if menu_items.present?
-          content_tag(list_tag) do
+          content_tag(list_tag, :class => 'nav-bar') do
             menu_items.each_with_index.inject(ActiveSupport::SafeBuffer.new) do |buffer, (item, index)|
               buffer << render_menu_item(item, index)
             end
@@ -54,6 +55,7 @@ module Refinery
       end
 
       def render_menu_item(menu_item, index)
+        STDERR.puts "[DEBUG] That's an item!"
         content_tag(list_item_tag, :class => menu_item_css(menu_item, index)) do
           buffer = ActiveSupport::SafeBuffer.new
           buffer << link_to(menu_item.title, context.refinery.url_for(menu_item.url))
